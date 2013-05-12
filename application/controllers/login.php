@@ -21,7 +21,9 @@ class Login extends CI_Controller {
 				$this->user_model->login();
 				$post_data['result'] = 'Success!';
 			}
+
 			echo json_encode($post_data);
+
 		}catch(Exception $e){
 			$post_data = array('result'=>$e->getMessage());
 			echo json_encode($post_data);

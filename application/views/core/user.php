@@ -7,7 +7,7 @@
 				if($isAdmin == "true"){
 					echo '<div id="category-link"><a href="#submit-category-modal" class="post-category" id="post-category">Create Category</a></div>';
 				}
-			?>
+			?>		
 		</div>
 	</div>	
 	<div id="content">

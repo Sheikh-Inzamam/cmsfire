@@ -260,7 +260,7 @@ body{
 	text-align: center;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
-	width: 60px;
+	/*width: 60px;*/
 	height: 20px;
 	line-height: 20px;
 	background-color: #80b3b3;
@@ -308,28 +308,28 @@ body{
 .user-comments-link{
 	position: absolute;
 	left: 300px;
-	width: 80px;
+	width: 80px !important;
 	bottom: 0;
 }
 
 .user-submitted-link{
 	position: absolute;
 	left: 385px;
-	width: 80px;
+	width: 80px !important;
 	bottom: 0;	
 }
 
 .user-liked-link{
 	position: absolute;
 	left: 471px;
-	width: 80px;
+	width: 80px !important;
 	bottom: 0;		
 }
 
 .user-comments-liked-link{
 	position: absolute;
 	left: 558px;
-	width: 84px;
+	width: 84px !important;
 	bottom: 0;		
 }
 
