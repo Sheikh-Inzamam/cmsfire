@@ -260,7 +260,7 @@ body{
 	text-align: center;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
-	/*width: 60px;*/
+	width: 60px;
 	height: 20px;
 	line-height: 20px;
 	background-color: #80b3b3;
