@@ -127,7 +127,18 @@ $(document).ready(
 				.fail(function() { console.log( "error voting for content" ); })  			
 			});
 		}
+
+		function enableListNumbers(){
+			$("ol").each(function() {
+				$(this).find("li").each(function(count) {
+				$(this)
+				.css("list-style-type", "none")
+				.prepend("<label id='story-entry-count'>" + (count + 1) + ") </label>");
+				})
+			});			
+		}			
 		
+		window.enableListNumbers = enableListNumbers;
 		window.handleCommentVoted = handleCommentVoted;
 		window.handleVoted = handleVoted;
 		window.addHandlers = addHandlers;

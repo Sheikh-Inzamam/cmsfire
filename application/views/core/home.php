@@ -10,103 +10,46 @@
 			?>
 		</div>
 	</div>	
-	<div id="content"></div>	
+	<div id="content"><?php echo $loadContent; ?></div>	
 </div>
 
-<div id="pagination"></div>
+<div id="pagination">
+<?php
+$nextPage = $pageIndex + 1;
+$showPreviousPage = ((($pageIndex-1) == 0) ? true : false);
+
+
+if(($pageIndex-1) != 0){
+	if(isset($latest) && $latest == 'true'){
+		echo "<a href='/home/latest/".((($pageIndex-1)==0) ? '1' : ($pageIndex-1) )."' class='next-link-button prev-space'>< Prev</a>";
+	}else{		
+		echo "<a href='/home/page/".((($pageIndex-1)==0) ? '1' : ($pageIndex-1) )."' class='next-link-button prev-space'>< Prev</a>";
+	}
+}
+
+if(isset($showNextPage)){
+	if($showNextPage == 'true'){		
+		if(isset($latest) && $latest == 'true'){
+			echo "<a href='/home/latest/".$nextPage."' class='next-link-button'>Next ></a>";
+		}else{				
+			echo "<a href='/home/page/".$nextPage."' class='next-link-button'>Next ></a>";
+		}
+	}
+}
+?>
+</div>
 
 <script type="text/javascript" src="/js/libraries/helperCalls.js"></script>
-<script type="text/javascript" src="/js/core/storyActions.js"></script>
+<!--<script type="text/javascript" src="/js/core/storyActions.js"></script>-->
 <script type="text/javascript">
 var username = '<?php echo (isset($username)) ? $username : '' ?>';
 var isAdmin = <?php echo (isset($isAdmin)) ? $isAdmin : 'false' ?>;
 $(document).ready(
 	function() {
 		init();
-		handlePagination();
-
 		function init(){
-			var callback = $.Callbacks();			
-			var pageIndex = "<?php echo $pageIndex; ?>";
-			var base = '/home/load';
-			//console.log(pageIndex);
-
-			var latest = <?php echo ((isset($latest)) ? 'true': 'false'); ?>;
-			if(latest == true){
-				base = '/home/load_latest';
-			}
-
-			if(!isInt(parseInt(pageIndex))){
-				pageIndex = 1;
-			}
-			if(pageIndex < 1){
-				pageIndex = 1;
-			}			
-			callback.add(loadContent(base, pageIndex));
-		}
-
-		function handlePagination(){			
-			var pageIndex = "<?php echo $pageIndex; ?>";
-			var originalPageIndex = pageIndex;
-			var category = '<?php 
-				if(isset($category)){
-					echo $category; 
-				}else{
-					echo '';
-				}?>';
-			var latest = '<?php 
-				if(isset($latest)){
-					echo $latest; 
-				}else{
-					echo '';
-				}?>';
-			var showNextPage = <?php echo $showNextPage; ?>;
-			var nextLink = '';
-			var prevLink = '';
-			if(showNextPage){
-				pageIndex++;
-				if(category != ''){					
-					if(latest != ''){
-						nextLink += "<a href='/f/" + category + "/latest/" + pageIndex + "' class='next-link-button'>Next ></a>";
-					}else{
-						nextLink += "<a href='/f/" + category + "/" + pageIndex + "' class='next-link-button'>Next ></a>";
-					}
-				}else{
-					if(latest != ''){
-						nextLink += "<a href='/home/latest/" + pageIndex + "' class='next-link-button'>Next ></a>";
-					}else{
-						nextLink += "<a href='/home/page/" + pageIndex + "' class='next-link-button'>Next ></a>";
-					}
-				}
-			}
-
-			if(category != ''){
-				if((originalPageIndex-1) != 0){
-					if(latest != ''){
-						prevLink += "<a href='/f/" + category + "/latest/" + --originalPageIndex + "' class='prev-link-button'>< Prev</a>";
-					}else{
-						prevLink += "<a href='/f/" + category + "/" + --originalPageIndex + "' class='prev-link-button'>< Prev</a>";
-					}
-				}				
-			}else{
-				if((originalPageIndex-1) != 0){
-					if(latest != ''){
-						prevLink += "<a href='/home/latest/" + --originalPageIndex + "' class='prev-link-button'>< Prev</a>";
-					}else{
-						prevLink += "<a href='/home/page/" + --originalPageIndex + "' class='prev-link-button'>< Prev</a>";
-					}
-				}
-			}			
-			
-			$('#pagination').append(prevLink);
-			if(prevLink.length > 0 && nextLink.length > 0){
-				$('#pagination').append('<span class="divider-next-prev"></span>');
-			}
-			$('#pagination').append(nextLink);	
-		}	
-
-		function isInt(n) {
- 		  return typeof n === 'number' && n % 1 == 0;
+			addHandlers(true);
+			enableListNumbers();
 		}
 	}
 );

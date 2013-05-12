@@ -161,7 +161,7 @@ class User extends CI_Controller {
 			$data['navigationSelectedHot'] = true;
 			$data['categoriesResult'] = $this->category_model->get();
 
-			$storyResultList = $this->story_model->get_by_userId($user->id, $pageIndex);	
+			$storyResultList = $this->story_model->get_by_userId($user->id, $pageIndex);
 			$data['loadContent'] = generate_list_submit_helper($storyResultList, $this->session->userdata('name'), $data['isAdmin']);
 			$nextLinkCount = count($this->story_model->get_by_userId($user->id, ++$pageIndex));
 			

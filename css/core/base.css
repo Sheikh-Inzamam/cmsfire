@@ -127,6 +127,9 @@ body{
 	top:1px;
 }
 
+.prev-space{
+	margin-right: 5px;
+}
 
 #actions-navigator-content{
 	border-color: #4c7e7e;

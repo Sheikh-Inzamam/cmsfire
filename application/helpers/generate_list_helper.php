@@ -53,7 +53,8 @@ if ( ! function_exists('generate_list_submit_helper'))
     	//You may need to load the model if it hasn't been pre-loaded
     	$CI = get_instance();
     	$CI->load->model('core/story_vote_model');
-    	$list = "<ul class='ul-comments-user-list'>";
+    	//$list = "<ul class='ul-comments-user-list'>";
+    	$list ='<ol id="ul-story-links" class="ul-story-links">';
     	//echo count($datalist);
     	foreach($datalist as $row){    		
 
@@ -101,7 +102,7 @@ if ( ! function_exists('generate_list_submit_helper'))
 
     	}
 
-		$list .= '</ul>';
+		$list .= '</ol>';
 		return $list;
 	}
 	

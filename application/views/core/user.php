@@ -39,7 +39,6 @@ if(isset($showNextPage)){
 $(document).ready(
 	function() {
 		init();
-		handlePagination();
 		
 		function init(){
 			var type = "<?php echo $type; ?>";
@@ -48,7 +47,9 @@ $(document).ready(
 			}else if(type == "submitted" || type == "liked"){
 				addHandlers(true);
 			}
-		}
+
+			enableListNumbers();
+		}	
 	}
 );
 </script>

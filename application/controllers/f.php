@@ -10,6 +10,8 @@ class F extends CI_Controller {
 	public function index(){		
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
+		$this->load->helper('convert_time');
+		$this->load->helper('generate_list');	
 		$category = $this->uri->segment(2);
 		//check if category exists
 		if($this->categoryExists($category)){
@@ -24,8 +26,10 @@ class F extends CI_Controller {
 			$data['navigationSelectedHot'] = true;
 			$data['categoriesResult'] = $this->category_model->get();
 
-			$nextLinkCount = count($this->category_model->getLinks($category, ++$pageIndex));
 
+			$storyResultList = $this->category_model->getLinks($category, $pageIndex);
+			$data['loadContent'] = generate_list_submit_helper($storyResultList, $this->session->userdata('name'), $data['isAdmin']);
+			$nextLinkCount = count($this->category_model->getLinks($category, ++$pageIndex));
 			if($nextLinkCount > 0){
 				$data['showNextPage'] = 'true';
 			}
@@ -58,9 +62,11 @@ class F extends CI_Controller {
 	public function latest(){
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
+		$this->load->helper('convert_time');
+		$this->load->helper('generate_list');			
 		$pageIndex = $this->uri->segment(4);
 		if($pageIndex == ''){$pageIndex = 1;}
-		
+
 		$data['base'] = '/f';
 		$data['latest'] = 'true';
 		$data['pageIndex'] = $pageIndex;
@@ -71,8 +77,12 @@ class F extends CI_Controller {
 		$data['isAdmin'] = ((isset($this->user_model->get_by_name($this->session->userdata('name'))->isAdmin) && $this->user_model->get_by_name($this->session->userdata('name'))->isAdmin == 1) ? 'true' : 'false');
 		$data['navigationSelectedLatest'] = true;
 		$data['categoriesResult'] = $this->category_model->get();
-		$nextLinkCount = count($this->category_model->getLinksLatest($data['category'], ++$pageIndex));
 
+		$category = $data['category'];
+
+		$storyResultList = $this->category_model->getLinksLatest($category, $pageIndex);
+		$data['loadContent'] = generate_list_submit_helper($storyResultList, $this->session->userdata('name'), $data['isAdmin']);		
+		$nextLinkCount = count($this->category_model->getLinksLatest($data['category'], ++$pageIndex));
 		if($nextLinkCount > 0){
 			$data['showNextPage'] = 'true';
 		}		
