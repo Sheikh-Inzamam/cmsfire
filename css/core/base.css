@@ -194,11 +194,18 @@ body{
 }
 
 #navigation-header-categories{
+	font: normal x-small verdana,arial,helvetica,sans-serif;
 	background-color: #4C8080;	
+	height: 19px;
+
+	background-color: #f0f0f0;
+	white-space: nowrap;
+	border-bottom: 1px solid gray;	
 }
+
 #navigation-cover{
 	position: relative;
-	background-color: #D3FFD3;
+	background-color: #cee3f8;
 	height: 70px;
 
    border-bottom-width: .1em;
@@ -213,7 +220,7 @@ body{
 }
 #navigation-header-categories ul li {
  	display: inline; 
- 	margin-right: 10px;
+ 	margin-right: 5px;
  }
 
 .navigation-header-log-in-or-register{
@@ -374,8 +381,10 @@ body{
 
 .category-header-link-list{
 	text-decoration: none;
-	color: #e5e9ee;
-	margin-left: 5px;	
+	color: black;
+	margin-left: 2px;	
+	position: relative;
+	top: 1px;
 }
 
 .ul-comments-post{
