@@ -12,6 +12,10 @@ class Home extends CI_Controller {
 		$this->load->model('core/user_model');		
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');
 
 		$data['base'] = '/home';
 		$data['pageIndex'] = 1;
@@ -42,6 +46,9 @@ class Home extends CI_Controller {
 		$this->load->model('core/user_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');		
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');
 
 		$pageIndex = $this->uri->segment(3);
 		if($pageIndex == ''){$pageIndex = 1;}
@@ -75,6 +82,9 @@ class Home extends CI_Controller {
 		$this->load->model('core/user_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');			
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');
 
 		$pageIndex = $this->uri->segment(3);
 		if($pageIndex == ''){$pageIndex = 1;}

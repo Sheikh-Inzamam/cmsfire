@@ -12,6 +12,10 @@ class F extends CI_Controller {
 		$this->load->model('core/user_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');	
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
+		
 		$category = $this->uri->segment(2);
 		//check if category exists
 		if($this->categoryExists($category)){
@@ -63,7 +67,11 @@ class F extends CI_Controller {
 		$this->load->model('core/category_model');
 		$this->load->model('core/user_model');
 		$this->load->helper('convert_time');
-		$this->load->helper('generate_list');			
+		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');
+							
 		$pageIndex = $this->uri->segment(4);
 		if($pageIndex == ''){$pageIndex = 1;}
 

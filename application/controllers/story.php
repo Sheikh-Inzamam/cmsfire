@@ -70,6 +70,9 @@ class story extends CI_Controller {
 		$this->load->model('core/user_model');	
 		$this->load->model('core/comment_model');
 		$this->load->model('core/category_model');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 		$data['base'] = '/home';
 		$data['pageIndex'] = 0;
 		$data['category'] = '';

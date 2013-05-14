@@ -38,6 +38,12 @@ if(isset($showNextPage)){
 }
 ?>
 </div>
+<div id="captcha-hidden-placeholder" style="display:none;">
+	<?php
+		//do this because you js file doesn't load php by default.
+		echo img('image/securimage', TRUE);
+	?>
+</div>
 
 <script type="text/javascript" src="/js/libraries/helperCalls.js"></script>
 <!--<script type="text/javascript" src="/js/core/storyActions.js"></script>-->

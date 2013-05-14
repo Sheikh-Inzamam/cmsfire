@@ -18,7 +18,7 @@ class Create extends CI_Controller {
 			$this->load->model('core/user_model');
 			
 			if($this->validate()){
-				$this->user_model->insert();
+				//$this->user_model->insert();
 				$post_data['result'] = 'Success!';
 			}
 			echo json_encode($post_data);
@@ -49,11 +49,17 @@ class Create extends CI_Controller {
 	}
 	
 	private function validate(){
+		$this->load->library('securimage'); 
 		$this->form_validation->set_rules('name', 'Name', 'required|trim|max_length[255]|xss_clean');
 		$this->form_validation->set_rules('password', 'Password', 'required|trim|max_length[255]|xss_clean');
 		$this->form_validation->set_rules('repassword', 'Re-Password', 'required|trim|max_length[255]|xss_clean');		
 		$this->form_validation->set_rules('email', 'Email', 'trim|max_length[50]|xss_clean');
 			
+
+		$inputCode = $this->input->post('imagecode');
+        if($this->securimage->check($inputCode) == false){	
+        	throw new Exception("Captcha is incorrect");
+        }
 
 		if(strlen(strip_tags($this->input->post('name'))) == 0 || strlen($this->input->post('name')) != strlen(strip_tags($this->input->post('name')))){
 			throw new Exception("Empty name");

@@ -33,7 +33,7 @@ $(document).ready(
 			}else if(data.isLoggedIn == 'false'){
 				isLoggedIn = false;
 				loggedInContent += '<a id="navigation-header-log-in-or-register" href="#log-in-or-register-modal" class="navigation-header-log-in-or-register">Log In or Register</a>';
-				loggedInContent += '<div style="display: none;"><div id="log-in-or-register-modal" style="width:800px;height:300px;overflow:auto;">'+
+				loggedInContent += '<div style="display: none;"><div id="log-in-or-register-modal" style="width:800px;height:400px;overflow:auto;">'+
 				'<div id="login_form">' +
 					'<form id="log-in-form"><ul>' +
 					'<li><h2>Log In</h2></li>' +
@@ -72,6 +72,12 @@ $(document).ready(
 						'<div><input type="text" name="email" value="" id="email"  /></div>' +
 					'</li>' +					
 					'<li>' +
+					'<label>Captcha</label>' +
+						'<div id="captcha-image">' +						
+						'</div>' +
+						'<div><input type="text" name="imagecode" value="" id="imagecode"  /></div>' +
+					'</li>' +
+					'<li>' +
 						'<input type="button" id="submit-button-create" name="submit" value="Create Account"  /></li>' +
 					'<li><label id="error-create-account" style="color:red;"></label></li>'+
 					'</ul>' +
@@ -86,6 +92,8 @@ $(document).ready(
 				checkIfUserExists();
 				$('#post-link').removeClass('post-link');				
 				$('#post-category').removeClass('post-category');
+
+				$('#captcha-image').html($('#captcha-hidden-placeholder').show());
 
 				$("#post-link").click(function(){					
 				//if it has the log in thing generate this...

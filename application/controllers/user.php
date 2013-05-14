@@ -13,6 +13,9 @@ class User extends CI_Controller {
 		$this->load->model('core/comment_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 
 		$pageIndex = (($this->uri->segment(4) != "") ? $this->uri->segment(4) : 1);
 		$username = $this->uri->segment(2);
@@ -56,6 +59,9 @@ class User extends CI_Controller {
 		$this->load->model('core/comment_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 
 		$pageIndex = (($this->uri->segment(4) != "") ? $this->uri->segment(4) : 1);
 		$username = $this->uri->segment(2);
@@ -100,6 +106,9 @@ class User extends CI_Controller {
 		$this->load->model('core/comment_model');		
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 
 		$pageIndex = (($this->uri->segment(4) != "") ? $this->uri->segment(4) : 1);
 		$username = $this->uri->segment(2);
@@ -142,6 +151,9 @@ class User extends CI_Controller {
 		$this->load->model('core/story_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 
 		$pageIndex = (($this->uri->segment(4) != "") ? $this->uri->segment(4) : 1);
 		$username = $this->uri->segment(2);
@@ -184,6 +196,9 @@ class User extends CI_Controller {
 		$this->load->model('core/story_model');
 		$this->load->helper('convert_time');
 		$this->load->helper('generate_list');
+		$this->load->library('securimage');
+		$this->load->helper('url');
+		$this->load->helper('html');		
 
 		$pageIndex = (($this->uri->segment(4) != "") ? $this->uri->segment(4) : 1);
 		$username = $this->uri->segment(2);

@@ -471,6 +471,11 @@ li{
  	color: grey;
  	margin-left: 15px;
  }
+
+ #captcha{
+ 	margin-bottom: 5px;
+ }
+
  .story-link-domain:hover{
  	text-decoration: underline;
  }
@@ -480,7 +485,7 @@ li{
  }
 
  .story-entry{
- 	margin-bottom: 5px;
+ 	margin-bottom: 15px; 	
  }
  .story-link-score{
  	margin-left: 35px;
