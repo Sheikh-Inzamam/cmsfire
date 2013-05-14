@@ -1,3 +1,6 @@
+<div class="fix"></div>
+<br/>
+<br/>
    <div id="footer">
       <div id="footer-wrapper">
         <div class="info links">

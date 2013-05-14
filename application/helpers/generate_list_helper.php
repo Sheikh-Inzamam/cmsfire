@@ -53,11 +53,16 @@ if ( ! function_exists('generate_list_submit_helper'))
     	//You may need to load the model if it hasn't been pre-loaded
     	$CI = get_instance();
     	$CI->load->model('core/story_vote_model');
+    	$CI->load->model('core/story_model');
     	//$list = "<ul class='ul-comments-user-list'>";
     	$list ='<ol id="ul-story-links" class="ul-story-links">';
     	//echo count($datalist);
     	foreach($datalist as $row){    		
-
+    		$get_comment_count_result = $CI->story_model->get_comment_count($row->id);
+    		$commentCount = 0;
+    		foreach($get_comment_count_result as $row2){
+    			$commentCount = $row2->commentCount;
+    		}
 			$list .="<li id='story-entry-".$row->id."' class='story-entry'>";				
 			$link = $row->link;
 			$score = $row->score;
@@ -93,7 +98,7 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$list .="<label class='story-link-time-ago'>".convert_time_helper($row->days, $row->hours, $row->years, $row->minutes, $row->seconds)."</label>";
 			$list .="<label class='story-link-to'>to</label>";
 			$list .="<a href='/f/".$row->categoryname."' class='story-link-categoryname'>".$row->categoryname."</a> | ";
-			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='/story/display/".$row->id."'>0 comments</a>";
+			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='/story/display/".$row->id."'>".$commentCount." comments</a>";
 			if($username == $row->name || $isAdmin == "true"){
 				$list .=" | <a href='/story/delete/".$row->id."/false' id='story-delete-".$row->id."' class='story-delete-btn' value='".$row->id."' value='".$row->id."'>delete</a>";
 			}				

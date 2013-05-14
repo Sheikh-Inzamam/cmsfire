@@ -2,11 +2,16 @@
 		
 */
 
-body{
-	margin: 0px;
+body{	
 	background-color: #fbfdfd;
+	margin: 0 0 100px;
+	padding: 0;
+	height: 100%;	
 }
-
+html{
+	position: relative;
+	min-height: 100%;
+}
 .story-entry .story-link-upvote{
 	margin-left: 10px;
 	color: #e6e6e6;
@@ -28,10 +33,17 @@ body{
 	text-decoration: none;
 }
 
-#footer{
-	font-size: 13px;	
-	margin-top: 50px;
-	border-top: 1px solid #ddd;	
+#footer{	
+	font-size: 13px;		
+	border-top: .1em solid rgb(197, 197, 197);
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 100px;
+	width: 100%;	
+	background-color: #f0f0f0; 
+	font-size:12px;
+
 }
 
 #footer-wrapper{	
