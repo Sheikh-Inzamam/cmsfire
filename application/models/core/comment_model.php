@@ -19,72 +19,9 @@ class Comment_Model extends CI_Model{
 			$date = new DateTime();
 			$this->load->model('core/user_model');
 			$this->load->model('core/comment_vote_model');			
+			$this->load->helper('comment_spam');
 
-			//check to see when their last message was sent..
-			if($this->session->userdata('last_coment_post') !== FALSE){
-				//see how long ago the message was posted..
-				$timeInSeconds = time() - $this->session->userdata('last_coment_post'); // to get the time since that moment				
-				//if it's still under a minute then bump up the time you have to wait..
-				if((($timeInSeconds / 60) >= 1) && $this->session->userdata('comment_spam_offense_count') == 0){
-					$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);					
-					throw new Exception("Please come back in 1 Minute to prevent flooding the boards.");
-				}else{
-					if($this->session->userdata('comment_spam_offense_count') == false){
-						$this->session->set_userdata('comment_spam_offense_count', 0);
-					}
-					switch($this->session->userdata('comment_spam_offense_count')){
-						case 0:
-							if(($timeInSeconds / 60) >= 1){
-								$this->session->unset_userdata('last_coment_post');
-								$this->session->set_userdata('comment_spam_offense_count',  0);
-							}else{
-								$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);
-								throw new Exception("Please come back in 1 Minutes to prevent flooding the boards.");			
-							}	
-						break;						
-						case 1:
-							if(($timeInSeconds / 60) >= 1){
-								$this->session->unset_userdata('last_coment_post');
-								$this->session->set_userdata('comment_spam_offense_count',  0);
-							}else{
-								$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);					
-								throw new Exception("Please come back in 5 Minutes to prevent flooding the boards.");			
-							}						
-						break;
-
-						case 2:
-							if(($timeInSeconds / 60) >= 5){
-								$this->session->unset_userdata('last_coment_post');
-								$this->session->set_userdata('comment_spam_offense_count',  0);
-							}else{
-								$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);					
-								throw new Exception("Please come back in 10 Minutes to prevent flooding the boards.");			
-							}
-						break;
-
-						case 3:
-							if(($timeInSeconds / 60) >= 10){
-								$this->session->unset_userdata('last_coment_post');
-								$this->session->set_userdata('comment_spam_offense_count',  0);
-							}else{
-								$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);					
-								throw new Exception("Okay now you're not even reading the messages.  Come back in an hour.");			
-							}
-						break;
-
-						default:
-							if(($timeInSeconds / 60) >= 60){
-								$this->session->unset_userdata('last_coment_post');
-								$this->session->set_userdata('comment_spam_offense_count',  0);
-							}else{
-								$this->session->set_userdata('comment_spam_offense_count',  $this->session->userdata('comment_spam_offense_count') + 1);					
-								throw new Exception("Okay now you're not even reading the messages.  Come back in an hour.");			
-							}						
-					}
-				}				
-			}
-
-
+			comment_spam_helper();
 			$userId = $this->user_model->get_by_name($this->session->userdata('name'))->id;
 			$comment = $this->input->post('comment');
 			$comment = strip_tags($comment);
