@@ -164,7 +164,7 @@ $(document).ready(
 		function initHomePostHandler(){
 			$('.comment-post-btn').unbind();
 			$( ".comment-post-btn" ).each(function() {
-				$(this).click (function(){
+				$(this).die("click").live("click", function(){
 	    			var dataToBeSent = $(this).closest("form").serialize();
 	    			var errorLabel = $(this).closest("form").find(".comment-error-home-label");    			
 

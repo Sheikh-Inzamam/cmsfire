@@ -60,8 +60,8 @@ if ( ! function_exists('generate_list_submit_helper'))
     	foreach($datalist as $row){    		
     		$get_comment_count_result = $CI->story_model->get_comment_count($row->id);
     		$commentCount = 0;
-    		foreach($get_comment_count_result as $row2){
-    			$commentCount = $row2->commentCount;
+    		foreach($get_comment_count_result as $commentResult){
+    			$commentCount = $commentResult->commentCount;
     		}
 			$list .="<li id='story-entry-".$row->id."' class='story-entry'>";				
 			$link = $row->link;
