@@ -30,9 +30,10 @@ $(document).ready(
 			//find content div.
 			var storyEntry = "";
 			var firstEntryId = -1;
+
 			if(!addToParent || data.length > 0){
 				storyEntry = "<ul class='ul-comments-post' value='" + parentCommentId + "' pageIndex='" + pageIndex + "'>";
-			}
+			}			
 			
 			$.each(data, function(i, item)
 			{
@@ -45,7 +46,7 @@ $(document).ready(
 					firstEntryId = item.id;
 				}
 
-				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + "' value='" + item.id + "' >";				
+				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + "' value='" + item.id + "' ><div class='comment-content'>";
 				if(deleted == 0){
 					storyEntry += "<a href='/user/" + item.name + "' id='story-link-username-" + i + "' class='story-link-username'>" + item.name + "</a>";
 					storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">&hearts;</a>';
@@ -73,11 +74,12 @@ $(document).ready(
 				storyEntry += '<input type="button" name="submit" value="Cancel" class="comment-cancel-btn" onClick="javascript:$(this).closest(\'form\').hide();"  /><br/>';
 				storyEntry += '<div class="comment-error-home-label"></div>';
 				storyEntry += '</form>';
-				storyEntry += "</div>";				
+				storyEntry += "</div></div>";				
 				storyEntry += "</li>";
-				if(enablePagination == "true"){
+
+				if(enablePagination == "true"){	
 					loadNestedComments(url, storyId, item.id, 1, true, false);
-				}else{
+				}else{					
 					loadNestedComments(url, storyId, item.id, pageIndex, true, false);
 				}
 			});

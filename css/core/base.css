@@ -63,6 +63,7 @@ html{
 
 #comments-content{
 	margin-left: 20px;
+	margin-right: 5px;
 }
 
 .actions-label{
@@ -407,6 +408,23 @@ html{
 	padding-start: 0px;
 	padding: 0px;
  }
+
+.ul-comments-post li{
+	border: 1px solid #e6e6e6!important;
+}
+
+.ul-comments-post .even{
+	background-color: #fbfdfd;
+}
+
+.ul-comments-post .odd{
+	background-color: #f5f5f5;
+}
+
+.comment-content{
+	margin-top: 5px;
+	margin-left: 10px;
+}
 
 li{
 	list-style-type:none;
