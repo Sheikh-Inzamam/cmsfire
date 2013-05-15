@@ -409,6 +409,11 @@ html{
 	padding: 0px;
  }
 
+
+ .ul-comments-post .parent{
+ 	border-left: 1px dotted #DDF;
+ }
+
 .ul-comments-post li{
 	border: 1px solid #e6e6e6!important;
 }
