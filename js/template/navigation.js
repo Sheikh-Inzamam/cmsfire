@@ -124,7 +124,8 @@ $(document).ready(
 				categoryContent += item.name;
 				categoryContent += "</a> - ";
 			});
-			categoryContent = categoryContent.substr(0, categoryContent.length-2);			
+			categoryContent = categoryContent.substr(0, categoryContent.length-2);
+			category
 			var submitLinkContent = '<div style="display: none;"><div id="submit-link-modal" style="width:800px;height:300px;overflow:auto;">'+
 			'<div id="create_story">'+
 			'<form id="create-story-form"><ul>'+
@@ -138,7 +139,7 @@ $(document).ready(
 				'</li>'+
 				'<li>'+
 					'<label>Category</label>'+
-					'<div><input type="text" name="category" value="' + category + '" id="category"  />' + categoryContent + '</div>'+
+					'<div><input type="text" name="category" value="' + decodeURIComponent(category) + '" id="category"  />' + categoryContent + '</div>'+
 				'</li>'+
 				'<li>'+
 					'<label>Description / Comment</label>'+
