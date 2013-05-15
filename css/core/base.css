@@ -519,6 +519,12 @@ li{
 	text-decoration: none;
 	color: #19A3FF;
 }
+
+.story-link-username-deleted{
+	margin-right: 5px;
+	text-decoration: none;
+	color: #888;
+}
 .story-link-time-ago{
 	margin-right: 5px;
 }

@@ -61,6 +61,19 @@ $(document).ready(
 				storyEntry += "<hr style='margin-top: 15px;' align='left'>";
 			});
 			$("#story-data-content").append(storyEntry);
+			handleCommentCount(storyId);
+		}
+
+		function handleCommentCount(storyId){
+			var jqxhr = $.getJSON( "/story/getCommentCount/" + storyId, function() {})
+			
+			.done(function(data) {				
+				$.each(data, function(i, item)
+				{
+					$("#story-link-comments-count-" + storyId).html(item.commentCount + " comments");
+				});
+			})
+			.fail(function() { console.log( "error loading content" ); })					
 		}
 		
 		window.loadStory=loadStory;

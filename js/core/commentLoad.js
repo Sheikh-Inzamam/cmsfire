@@ -39,19 +39,30 @@ $(document).ready(
 				var comment = item.comment;
 				var name = item.name;
 				var score = item.score;
+				var deleted = item.commentDeleted;
+
 				if(i == 0){
 					firstEntryId = item.id;
 				}
 
 				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + "' value='" + item.id + "' >";				
-				storyEntry += "<a href='/user/" + item.name + "' id='story-link-username-" + i + "' class='story-link-username'>" + item.name + "</a>";
-				storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">&hearts;</a>';
+				if(deleted == 0){
+					storyEntry += "<a href='/user/" + item.name + "' id='story-link-username-" + i + "' class='story-link-username'>" + item.name + "</a>";
+					storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">&hearts;</a>';
+				}else{
+					storyEntry += "<label id='story-link-username-" + i + "' class='story-link-username-deleted'>[deleted]</label>";
+				}				
 				storyEntry += "<label class='comment-post-score'>" + score + " points</label>";
 				storyEntry += "<label class='story-link-time-ago'>" + convert_time_helper(item.days, item.hours, item.years, item.minutes, item.seconds) + "</label><br/>";
-				storyEntry += "<div id='comment-container-" + item.parentCommentId + "' class='comment-container'>";				
-				storyEntry += "<label class='comment-post'>" + comment.replace(/\n/g , "<br>") + "</label><br/>";
-				storyEntry += "<a href='javascript:void(0);' id='comment-reply-" + i + "' class='comment-reply-btn' value='" + item.id + "'>reply</a>";
-				if(username == item.name || isAdmin == "true"){
+				storyEntry += "<div id='comment-container-" + item.parentCommentId + "' class='comment-container'>";
+
+				if(deleted == 0){
+					storyEntry += "<label class='comment-post'>" + comment.replace(/\n/g , "<br>") + "</label><br/>";
+					storyEntry += "<a href='javascript:void(0);' id='comment-reply-" + i + "' class='comment-reply-btn' value='" + item.id + "'>reply</a>";
+				}else{
+					storyEntry += "<label class='comment-post'><i>deleted</i></label><br/>";
+				}				
+				if((username == item.name || isAdmin == "true") && deleted == 0){
 					storyEntry += "<a href='javascript:void(0);' id='comment-delete-" + i + "' class='comment-delete-btn' value='" + item.id + "' value='" + item.id + "'>delete</a>";
 				}
 				storyEntry += '<form class="comment-post-form" id="comment-post-form-' + item.id + '" style="display:none;">';

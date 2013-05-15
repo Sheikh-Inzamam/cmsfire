@@ -19,7 +19,7 @@ class Comment_Model extends CI_Model{
 			$date = new DateTime();
 			$this->load->model('core/user_model');
 			$this->load->model('core/comment_vote_model');			
-			
+
 			//check to see when their last message was sent..
 			if($this->session->userdata('last_coment_post') !== FALSE){
 				//see how long ago the message was posted..
@@ -225,6 +225,7 @@ class Comment_Model extends CI_Model{
 				c.parentCommentId,
 				SUM(cv.score) as score,
 				u.name as name,
+				c.deleted as commentDeleted,
 				TIMESTAMPDIFF(second,c.submitted,current_timestamp()) as seconds, 
 				TIMESTAMPDIFF(day,c.submitted,current_timestamp()) as days,
 				TIMESTAMPDIFF(hour,c.submitted,current_timestamp()) as hours,
@@ -237,7 +238,7 @@ class Comment_Model extends CI_Model{
 					on u.id = c.userId					
 				left join comment_vote cv
 					on cv.commentId = c.id
-				where c.parentCommentId = ".$parentCommentId." and c.deleted = 0 ".(($storyId == '') ? '' : "and s.id = ".$storyId)."
+				where c.parentCommentId = ".$parentCommentId." ".(($storyId == '') ? '' : "and s.id = ".$storyId)."
 					group by c.id
 				order by	
 					((COALESCE(SUM(cv.score),0)-1)/POW(((UNIX_TIMESTAMP(NOW()) -UNIX_TIMESTAMP(c.submitted))/3600)+2,1.5))

@@ -169,7 +169,7 @@ class Story_Model extends CI_Model{
 
 	function get_comment_count($id){
 		$id = $this->security->xss_clean($id);
-		$query = "select count(id) as commentCount from comment where deleted = 0 and storyId =".$id;
+		$query = "select count(id) as commentCount from comment where storyId =".$id;
 		return $this->db->query($query)->result();
 	}
 
