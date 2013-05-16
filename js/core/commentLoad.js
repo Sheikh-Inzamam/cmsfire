@@ -10,7 +10,7 @@ $(document).ready(
 			_url = url;
 			var jqxhr = $.getJSON(url + storyId + "/" + parentCommentId + "/" + pageIndex, function() {})			
 			.done(function(data) {
-				handleCommentsPageContent(data.comments, url, storyId, parentCommentId, pageIndex, false, data.enablePagination);
+				handleCommentsPageContent(data.comments, url, storyId, parentCommentId, pageIndex, false, data.enablePagination, true);
 				handleEmptyComments(data.comments);	
 				handleCommentVoted(data.comments);		
 				addHandlers(false);
@@ -26,7 +26,7 @@ $(document).ready(
 		}
 
 		//add all the links to the page now.
-		function handleCommentsPageContent(data, url, storyId, parentCommentId, pageIndex, addToParent, enablePagination){
+		function handleCommentsPageContent(data, url, storyId, parentCommentId, pageIndex, addToParent, enablePagination, isEven){
 			//find content div.
 			var storyEntry = "";
 			var firstEntryId = -1;
@@ -46,7 +46,7 @@ $(document).ready(
 					firstEntryId = item.id;
 				}
 
-				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + "' value='" + item.id + "' ><div class='comment-content'>";
+				storyEntry += "<li id='comment-" + item.id + "' class='comment-item " + ((parentCommentId > 0) ? 'child' : '' ) + " " + ((isEven === true) ? 'even' : 'odd') + "' value='" + item.id + "' ><div class='comment-content'>";
 				if(deleted == 0){
 					storyEntry += "<a href='/user/" + item.name + "' id='story-link-username-" + i + "' class='story-link-username'>" + item.name + "</a>";
 					storyEntry += '<a href="javascript:void(0);" id="comment-link-upvote-' + item.id + '" class="comment-link-upvote fui-plus-24" value="' + item.id + '">&hearts;</a>';
@@ -78,9 +78,9 @@ $(document).ready(
 				storyEntry += "</li>";
 
 				if(enablePagination == "true"){	
-					loadNestedComments(url, storyId, item.id, 1, true, false);
+					loadNestedComments(url, storyId, item.id, 1, true, ((isEven === true) ? false :  true ));
 				}else{					
-					loadNestedComments(url, storyId, item.id, pageIndex, true, false);
+					loadNestedComments(url, storyId, item.id, pageIndex, true, ((isEven === true) ? false :  true ));
 				}
 			});
 
@@ -139,10 +139,10 @@ $(document).ready(
 			});
 		}		
 
-		function loadNestedComments(url, storyId, parentCommentId, pageIndex, addToParent){
+		function loadNestedComments(url, storyId, parentCommentId, pageIndex, addToParent, isEven){
 			var jqxhr = $.getJSON(url + storyId + "/" + parentCommentId + "/" + pageIndex, function() {})			
-			.done(function(data) {
-				handleCommentsPageContent(data.comments, url, storyId, parentCommentId, pageIndex, addToParent, data.enablePagination);
+			.done(function(data) {				
+				handleCommentsPageContent(data.comments, url, storyId, parentCommentId, pageIndex, addToParent, data.enablePagination, isEven);
 			})
 			.fail(function() { console.log( "error loading content" ); })			
 		}

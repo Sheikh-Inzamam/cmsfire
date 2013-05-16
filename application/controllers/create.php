@@ -18,7 +18,7 @@ class Create extends CI_Controller {
 			$this->load->model('core/user_model');
 			
 			if($this->validate()){
-				//$this->user_model->insert();
+				$this->user_model->insert();
 				$post_data['result'] = 'Success!';
 			}
 			echo json_encode($post_data);
@@ -57,7 +57,7 @@ class Create extends CI_Controller {
 			
 
 		$inputCode = $this->input->post('imagecode');
-        if($this->securimage->check($inputCode) == false){	
+        if($this->securimage->check($inputCode) == false){
         	throw new Exception("Captcha is incorrect");
         }
 
