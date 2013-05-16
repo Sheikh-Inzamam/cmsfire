@@ -56,6 +56,7 @@ $(document).ready(
 		function init(){
 			addHandlers(true);
 			enableListNumbers();
+			getLinkClicked();
 		}
 	}
 );

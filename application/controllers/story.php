@@ -16,6 +16,28 @@ class story extends CI_Controller {
 		$this->load->view('core/story');//body content
 	}
 	
+
+	public function setUpLinkClickSession($storyId){
+		try{
+			$this->session->set_userdata('linkClicked',  $storyId);
+			$post_data = array('result'=>'Success!');
+			echo json_encode($post_data);
+		}catch(Exception $ex){
+			$post_data = array('result'=>$e->getMessage());
+			echo json_encode($post_data);
+		}
+	}
+
+	public function getLinkClickSession(){
+		try{			
+			$post_data = array('result'=>$this->session->userdata('linkClicked'));
+			echo json_encode($post_data);
+		}catch(Exception $ex){
+			$post_data = array('result'=>'');
+			echo json_encode($post_data);
+		}
+	}	
+
 	public function submit(){
 		try{
 			$post_data = array('result'=>'');

@@ -120,7 +120,7 @@ $(document).ready(
 			{			
 				jqxhr = $.getJSON( baseUrl + "/hasUpvoted/" + item.id, function() {})
 				.done(function(data) {
-					if(data.result == 'true'){					
+					if(data.result == 'true'){
 						$('#story-link-upvote-' + item.id).addClass("voted");
 					}
 				})
@@ -137,7 +137,38 @@ $(document).ready(
 				})
 			});			
 		}			
+
+		function linkClicked(storyId, redirectUrl){			
+			
+			var baseUrl = "/story";
+			var jqxhr;
+
+			jqxhr = $.getJSON( baseUrl + "/setUpLinkClickSession/" + storyId, function() {})
+			.done(function(data) {		
+				if(data.result == 'Success!'){					
+					window.location = redirectUrl;
+				}
+			})
+			.fail(function() { console.log( "error voting for content" ); })
+			return false;
+		}
 		
+		function getLinkClicked(){					
+			var baseUrl = "/story";		
+			$.ajax({
+			    type: "GET",
+			    async: true,
+			    url: baseUrl + "/getLinkClickSession/",			    
+			    cache: false,
+			    dataType: "json",
+			    success: function(data){
+			        $('#story-entry-' + data.result).addClass("link-was-clicked");
+			    }
+			});		
+		}
+
+		window.getLinkClicked = getLinkClicked;
+		window.linkClicked = linkClicked;
 		window.enableListNumbers = enableListNumbers;
 		window.handleCommentVoted = handleCommentVoted;
 		window.handleVoted = handleVoted;
