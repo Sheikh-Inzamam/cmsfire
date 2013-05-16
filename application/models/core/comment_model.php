@@ -16,6 +16,7 @@ class Comment_Model extends CI_Model{
 	function insert()
 	{
 		try{
+			date_default_timezone_set('America/New_York');
 			$date = new DateTime();
 			$this->load->model('core/user_model');
 			$this->load->model('core/comment_vote_model');			
