@@ -120,7 +120,7 @@ $(document).ready(
 			var categoryContent = "";
 			$.each(data, function(i, item)
 			{
-				categoryContent += "<a href='#' class='create-story-category-link' onclick='$(\"#create-story-form #category\").val(\"" + item.name + "\");' value='" + item.name + "'>";
+				categoryContent += "<a href='javascript:void(0);' class='create-story-category-link' onclick='$(\"#create-story-form #category\").val(\"" + item.name + "\");return false;' value='" + item.name + "'>";
 				categoryContent += item.name;
 				categoryContent += "</a> - ";
 			});
