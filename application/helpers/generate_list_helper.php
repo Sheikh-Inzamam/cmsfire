@@ -99,7 +99,7 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$list .="<label class='story-link-to'>to</label>";
 			$list .="<a href='/f/".$row->categoryname."' class='story-link-categoryname'>".$row->categoryname."</a> | ";
 
-			$commentsLink = "\"/story/display/".$row->id."\"";
+			$commentsLink = "/story/display/".$row->id;
 			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='".$commentsLink."'>".$commentCount." comments</a>";
 			if($username == $row->name || $isAdmin == "true"){
 				$list .=" | <a href='/story/delete/".$row->id."/false' id='story-delete-".$row->id."' class='story-delete-btn' value='".$row->id."' value='".$row->id."'>delete</a>";
