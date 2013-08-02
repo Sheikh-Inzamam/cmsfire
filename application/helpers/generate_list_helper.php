@@ -70,10 +70,10 @@ if ( ! function_exists('generate_list_submit_helper'))
 			
 			if(strlen($row->link) > 0){
 				$linkParam = "\"".$row->link."\"";
-				$list .="<a id='story-link-".$row->id."' class='story-link' href='#' onclick='linkClicked(".$row->id.",".$linkParam.");return false;'>";
+				$list .="<a id='story-link-".$row->id."' class='story-link' href='".$row->link."'>";
 			}else{
 				$linkParam = "\"/story/display/".$row->id."\"";
-				$list .="<a id='story-link-".$row->id."' class='story-link' href='#' onclick='linkClicked(".$row->id.",".$linkParam.");return false;'>";
+				$list .="<a id='story-link-".$row->id."' class='story-link' href='".$linkParam."'>";
 			}
 			$list .= $row->title;
 			$list .="</a>";
@@ -100,7 +100,7 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$list .="<a href='/f/".$row->categoryname."' class='story-link-categoryname'>".$row->categoryname."</a> | ";
 
 			$commentsLink = "\"/story/display/".$row->id."\"";
-			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='#' onclick='linkClicked(".$row->id.",".$commentsLink.");return false;'>".$commentCount." comments</a>";
+			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='".$commentsLink."'>".$commentCount." comments</a>";
 			if($username == $row->name || $isAdmin == "true"){
 				$list .=" | <a href='/story/delete/".$row->id."/false' id='story-delete-".$row->id."' class='story-delete-btn' value='".$row->id."' value='".$row->id."'>delete</a>";
 			}				
