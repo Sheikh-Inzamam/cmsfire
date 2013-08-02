@@ -68,11 +68,10 @@ if ( ! function_exists('generate_list_submit_helper'))
 
 			if($score === null){$score = 0;}			
 			
-			if(strlen($row->link) > 0){
-				$linkParam = "\"".$row->link."\"";
+			if(strlen($row->link) > 0){				
 				$list .="<a id='story-link-".$row->id."' class='story-link' href='".$row->link."'>";
 			}else{
-				$linkParam = "\"/story/display/".$row->id."\"";
+				$linkParam = "/story/display/".$row->id;
 				$list .="<a id='story-link-".$row->id."' class='story-link' href='".$linkParam."'>";
 			}
 			$list .= $row->title;
