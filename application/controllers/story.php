@@ -88,13 +88,16 @@ class story extends CI_Controller {
 		}
 	}
 
-	public function display($storyId=-1){	
+	public function display($storyId=-1){		
 		$this->load->model('core/user_model');	
 		$this->load->model('core/comment_model');
 		$this->load->model('core/category_model');
 		$this->load->library('securimage');
+		$this->load->helper('tag_interpreter_helper');
 		$this->load->helper('url');
-		$this->load->helper('html');		
+		$this->load->helper('html');
+		
+
 		$data['base'] = '/home';
 		$data['pageIndex'] = 0;
 		$data['category'] = '';
@@ -118,6 +121,20 @@ class story extends CI_Controller {
 		$story = $this->story_model->get_by_id($pageIndex);
 		echo json_encode($story);
 	}	
+
+
+	public function parseTitleAndDescription(){
+		try{
+			$this->load->helper('parse_title_description');
+			$storyMetaData = array();			
+			$storyMetaData = parse_title_description_helper($this->input->post('link'));
+			$post_data = array('result'=>'Success!', 'title'=>$storyMetaData['title'], 'description'=>$storyMetaData['description']);
+			echo json_encode($post_data);
+		}catch(Exception $e){
+			$post_data = array('result'=>$e->getMessage(), 'title'=>'', 'description'=>'');
+			echo json_encode($post_data);
+		}
+	}
 
 	private function validate(){
 		$this->form_validation->set_rules('name', 'Title', 'required|trim|max_length[255]|xss_clean');

@@ -120,7 +120,7 @@ $(document).ready(
 			var categoryContent = "";
 			$.each(data, function(i, item)
 			{
-				categoryContent += "<a href='#' class='create-story-category-link' onclick='$(\"#create-story-form #category\").val(\"" + item.name + "\");' value='" + item.name + "'>";
+				categoryContent += "<a href='javascript:void(0);' class='create-story-category-link' onclick='$(\"#create-story-form #category\").val(\"" + item.name + "\");return false;' value='" + item.name + "'>";
 				categoryContent += item.name;
 				categoryContent += "</a> - ";
 			});
@@ -178,6 +178,7 @@ $(document).ready(
 			$(".post-category").fancybox();
 			initCreateStoryHandler();
 			initCategoryStoryHandler();
+			initParseTitleAndDescription();
 		}
 
 		function initCategoryStoryHandler(){
@@ -187,7 +188,7 @@ $(document).ready(
 				$.ajax({
 				    type: "POST",
 				    url: "/category/submit",				    
-				    data: dataToBeSent,				    
+				    data: dataToBeSent,
 				    dataType: "json",
 				    success: function(data){
 				    	if(data.result == 'Success!'){
@@ -201,6 +202,36 @@ $(document).ready(
 				    }
 				});				
 			});			
+		}
+
+		function initParseTitleAndDescription(){
+			$("#link").change(function(){
+					var dataToBeSent = "link=" + $("#link").val();
+					$('input[name=link]').after('<img id="spinnerTitle" src="/img/spinner.gif" />')
+
+					$.ajax({
+					    type: "POST",
+					    url: "/story/parseTitleAndDescription",				    
+					    data: dataToBeSent,
+					    dataType: "json",
+					    success: function(data){
+					    	if(data.result == 'Success!'){
+					    		if(data.title != ""){								
+									$('input[name=name]').val(data.title);
+								}
+								if(data.description != ""){
+									$('textarea[name=description]').val(data.description);
+								}
+
+								$('#spinnerTitle').remove();
+							}
+					    },
+					    failure: function(errMsg) {
+					        alert(errMsg);
+					    }
+					});
+				}
+			);
 		}
 
 		function initCreateStoryHandler(){
