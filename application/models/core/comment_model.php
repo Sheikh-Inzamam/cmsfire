@@ -15,21 +15,22 @@ class Comment_Model extends CI_Model{
 	*/
 	function insert()
 	{
-		try{
+		try{			
 			date_default_timezone_set('America/New_York');
 			$date = new DateTime();
 			$this->load->model('core/user_model');
 			$this->load->model('core/comment_vote_model');			
-			$this->load->helper('comment_spam');
-
-			comment_spam_helper();
+			$this->load->model('core/comment_spam_model');			
+			
 			$userId = $this->user_model->get_by_name($this->session->userdata('name'))->id;
-			$comment = $this->input->post('comment');
+			$this->comment_spam_helper($userId);
+
+			$comment = $this->input->post('comment');			
 			$comment = strip_tags($comment);
 			
 			$parentCommentId = $this->input->post('parentCommentId');
 			$storyId = $this->input->post('storyId');
-
+			
 			if($comment == ''){
 				throw new Exception('Comment is empty');
 			}
@@ -45,15 +46,117 @@ class Comment_Model extends CI_Model{
 			);
 			
 			$this->db->insert($this->TABLE, $data);
-			$this->session->set_userdata('last_coment_post',  $date->getTimestamp());
-			$this->session->set_userdata('comment_spam_offense_count',  0);
 			$id = $this->db->insert_id();  //get latest insert id..
+
+			$where = array(
+    			'userId' => $userId
+    		);
+			$this->comment_spam_model->update(array('comment_spam_offense_count' => 0,
+				'last_comment_post' => $date->getTimestamp()
+			), $where);
+			
 			//now do an insert into story_vote model
 			$this->comment_vote_model->insert($id, 1);
 		}catch(Exception $e){
 			throw new Exception($e->getMessage());
 		}
 	}
+
+
+    function comment_spam_helper($userId)
+    {
+
+		$date = new DateTime();    	
+    	$this->load->model('core/comment_spam_model');    	
+    	
+    	$where = array(
+    		'userId' => $userId
+    	);
+    	
+    	$commentSpam = $this->comment_spam_model->get($where);
+		
+		$last_comment_post = null;
+		$comment_spam_offense_count = 0;
+
+    	if($commentSpam->num_rows() == 0){
+    		//if 0, create entries...
+    		$data = array(
+    			'userId' => $userId,
+    			'last_comment_post' => $date->getTimestamp()
+    		);    		    		
+    		$this->comment_spam_model->insert($data);
+    		$last_comment_post = $date->getTimestamp(); 		
+    		return;
+    	}else{
+    		//if there's an entry...
+    		//load em up!
+    		$last_comment_post = $commentSpam->row(0)->last_comment_post;
+    		$comment_spam_offense_count = $commentSpam->row(0)->comment_spam_offense_count;
+    	}
+
+    	//check to see when their last message was sent..
+		if($last_comment_post != null){
+			//see how long ago the message was posted..
+			$timeInSeconds = time() - $last_comment_post; // to get the time since that moment				
+
+			//if it's still under a minute then bump up the time you have to wait..
+			if((($timeInSeconds / 60) < 1) && $comment_spam_offense_count == 0){				
+				$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+				throw new Exception("Please come back in 1 Minute to prevent flooding the boards.");
+			}else{				
+
+				switch($comment_spam_offense_count){
+					case 0:
+						if(($timeInSeconds / 60) >= 1){
+
+							$this->comment_spam_model->delete($where);							
+						}else{
+
+							$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+							throw new Exception("Please come back in 1 Minutes to prevent flooding the boards.");			
+						}	
+					break;						
+					case 1:
+						if(($timeInSeconds / 60) >= 1){							
+							$this->comment_spam_model->delete($where);
+						}else{							
+							$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+							throw new Exception("Please come back in 5 Minutes to prevent flooding the boards.");			
+						}						
+					break;
+
+					case 2:
+						if(($timeInSeconds / 60) >= 5){
+
+							$this->comment_spam_model->delete($where);
+						}else{							
+							$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+							throw new Exception("Please come back in 10 Minutes to prevent flooding the boards.");			
+						}
+					break;
+
+					case 3:
+						if(($timeInSeconds / 60) >= 10){
+
+							$this->comment_spam_model->delete($where);
+						}else{							
+							$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+							throw new Exception("Okay now you're not even reading the messages.  Come back in an hour.");			
+						}
+					break;
+
+					default:
+						if(($timeInSeconds / 60) >= 60){							
+							$this->comment_spam_model->delete($where);
+						}else{							
+							$this->comment_spam_model->update(array('comment_spam_offense_count' => ($comment_spam_offense_count + 1)), $where);
+							throw new Exception("Okay now you're not even reading the messages.  Come back in an hour.");			
+						}						
+				}
+			}				
+		}
+	}
+
 
 	function delete($commentId){
 		try{
