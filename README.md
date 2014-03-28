@@ -20,3 +20,6 @@ TO SET UP:
 
 
 You are now set up to use CMS Fire!  Create a category to start bookmarking and discussing topics.
+
+
+For support, ask me on twitter <a href="https://twitter.com/nuwin_tim">@nuwin_tim</a>
