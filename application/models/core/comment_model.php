@@ -38,6 +38,12 @@ class Comment_Model extends CI_Model{
 			if(strlen($userId) == 0){
 				throw new Exception('Not logged in!');
 			}
+
+			$user = $this->user_model->get(array('id'=>$userId));
+			if($user->row()->banned == 1){
+				throw new Exception("User is banned!");
+			}			
+
 			$data = array(
 				'comment'=>$comment,
 				'userId'=>$userId,
@@ -157,6 +163,10 @@ class Comment_Model extends CI_Model{
 		}
 	}
 
+	function deleteBannedByUserId($userId){
+		$query = "update comment set deleted = 1 where userId = ?;";
+		$this->db->query($query, array($userId));
+	}
 
 	function delete($commentId){
 		try{

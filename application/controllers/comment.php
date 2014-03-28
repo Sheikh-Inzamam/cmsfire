@@ -34,6 +34,7 @@ class comment extends CI_Controller {
 	public function delete($commentId, $json=true){
 		try{
 			$this->load->model('core/comment_model');
+			$commentId = $this->security->xss_clean($commentId);
 			$this->comment_model->delete($commentId);
 			$post_data = array('result'=>'Success!');
 			if(!$json){
@@ -53,7 +54,14 @@ class comment extends CI_Controller {
 	public function get($storyId, $parentCommentId, $pageIndex){
 		try{
 			$this->load->model('core/comment_model');			
-			if($pageIndex == ''){$pageIndex = 1;}
+			
+			$storyId = $this->security->xss_clean($storyId);
+			$parentCommentId = $this->security->xss_clean($parentCommentId);
+			$pageIndex = $this->security->xss_clean($pageIndex);
+
+			if($pageIndex == '' || !is_numeric($pageIndex)){
+				$pageIndex = 1;
+			}
 
 			$comments = $this->comment_model->get($storyId, $parentCommentId, $pageIndex);
 			 

@@ -5,9 +5,12 @@
 			<?php
 				//if you're the admin then show a button to create categories.
 				if($isAdmin == "true"){
-					echo '<div id="category-link"><a href="#submit-category-modal" class="post-category" id="post-category">Create Category</a></div>';
-				}
-			?>		
+					echo '<div id="category-link"><a href="#submit-category-modal" class="post-category" id="post-category">Create Category</a></div>';						
+					if($userId != $yourUserId){
+						echo '<div id="ban-link"><a href="#" class="ban-user" id="ban-user" data-user-id="'.$userId.'">Ban User</a><div id="error-banning-msg"></div></div>';
+					}					
+				}				
+			?>
 		</div>
 	</div>	
 	<div id="content">
@@ -34,7 +37,7 @@ if(isset($showNextPage)){
 
 <div id="captcha-hidden-placeholder" style="display:none;">
 	<?php
-		//do this because you js file doesn't load php by default.
+		//do this because your js file doesn't load php by default.
 		echo img('image/securimage', TRUE);
 	?>
 </div>
@@ -55,7 +58,8 @@ $(document).ready(
 			}
 
 			enableListNumbers();
-		}	
+			banClickHandler();
+		}
 	}
 );
 </script>

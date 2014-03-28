@@ -52,7 +52,11 @@ class Story_Model extends CI_Model{
 			if($this->input->post('description') == '' && $this->exists($link, $categoryId) != -1){
 				throw new Exception('Link Exists!');
 			}
-			
+			//make sure you're not banned..
+			$user = $this->user_model->get(array('id'=>$userId));
+			if($user->row()->banned == 1){
+				throw new Exception("User is banned!");
+			}			
 			
 			$data = array(
 				'name'=>$name,
@@ -63,6 +67,7 @@ class Story_Model extends CI_Model{
 				'userId' => $userId,
 				'categoryId' => $categoryId
 			);
+
 			$this->db->insert($this->TABLE, $data);		
 			$id = $this->db->insert_id();  //get latest insert id..
 			//now do an insert into story_vote model
@@ -72,6 +77,12 @@ class Story_Model extends CI_Model{
 		}
 	}
 	
+	
+	function deleteBannedByUserId($userId){
+		$query = "update story set deleted = 1 where userId = ?;";
+		$this->db->query($query, array($userId));
+	}
+
 	function delete($storyId){
 		try{
 			$this->load->model('core/user_model');
@@ -83,7 +94,7 @@ class Story_Model extends CI_Model{
 				$query = "update story set deleted = 1 where id = ".$storyId;				
 				$this->db->query($query);
 			}else{
-				throw new Exception('This is not your comment');
+				throw new Exception('This is not your story');
 			}
 		}catch(Exception $e){
 			throw new Exception($e->getMessage());

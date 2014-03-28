@@ -56,12 +56,13 @@ class story extends CI_Controller {
 		}
 	}
 
-	public function delete($storyId, $json=true){
+	public function delete($storyId, $json=false){
 		try{
 			$this->load->model('core/story_model');
+
 			$this->story_model->delete($storyId);
-			$post_data = array('result'=>'Success!');
-			if(!$json){
+			$post_data = array('result'=>'Success!');			
+			if(!$json){				
 				//redirect page.
 				if(isset($_SERVER['HTTP_REFERER'])){
 					header('Location: ' . $_SERVER['HTTP_REFERER']);
@@ -98,6 +99,10 @@ class story extends CI_Controller {
 		$this->load->helper('html');
 		
 
+		$storyId = $this->security->xss_clean($storyId);
+		if($storyId == '' || !is_numeric($storyId)){
+			$storyId = -1;
+		}
 		$data['base'] = '/home';
 		$data['pageIndex'] = 0;
 		$data['category'] = '';

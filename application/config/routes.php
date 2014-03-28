@@ -68,7 +68,7 @@ $route['user/(:any)/liked/(:any)'] = "user/liked";
 $route['user/(:any)/liked'] = "user/liked";
 
 $route['user/getComments/(:any)/(:any)'] = "user/getComments";
-
+$route['user/ban/(:any)'] = "user/ban";
 $route['user/(:any)'] = "user/index";
 
 $route['default_controller'] = "home";

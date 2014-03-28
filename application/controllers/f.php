@@ -18,6 +18,7 @@ class F extends CI_Controller {
 		
 		$category = $this->uri->segment(2);
 		//check if category exists
+		$category = $this->security->xss_clean($category);
 		if($this->categoryExists($category)){
 			$pageIndex = $this->uri->segment(3);
 			if($pageIndex == ''){$pageIndex = 1;}
@@ -49,7 +50,11 @@ class F extends CI_Controller {
 	public function load(){
 		$this->load->model('core/category_model');
 		$category = $this->uri->segment(2);
+		$category = $this->security->xss_clean($category);
+
 		$pageIndex = $this->uri->segment(4);
+		$pageIndex = $this->security->xss_clean($pageIndex);
+
 		if($pageIndex == ''){$pageIndex = 1;}			
 		$links = $this->category_model->getLinks($category, $pageIndex);						
 		echo json_encode($links);
@@ -57,6 +62,8 @@ class F extends CI_Controller {
 
 	public function add(){
 		$category = $this->uri->segment(2);
+		$category = $this->security->xss_clean($category);
+
 		if($this->uri->segment(4) != ''){
 			header('Location: /f/'.$category.'/add');
 		}
@@ -102,12 +109,13 @@ class F extends CI_Controller {
 		$this->load->view('template/footer');
 	}	
 	
-	private function categoryExists($category){
+	private function categoryExists($category){	
 		$this->load->model('core/category_model');
-		$id = $this->category_model->get_by_name($category)->id;
-
-		if(strlen($id) == 0){
-			header('Location: /error');
+		$category = $this->security->xss_clean($category);
+		$categorObj = $this->category_model->getByName($category);
+		if($categorObj->num_rows() == 0){
+			header('Location: /');
+			return false;
 		}
 		return true;
 	}

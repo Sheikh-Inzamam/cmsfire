@@ -101,7 +101,7 @@ if ( ! function_exists('generate_list_submit_helper'))
 			$commentsLink = "/story/display/".$row->id;
 			$list .="<a class='story-link-comments-count' id='story-link-comments-count-".$row->id."' href='".$commentsLink."'>".$commentCount." comments</a>";
 			if($username == $row->name || $isAdmin == "true"){
-				$list .=" | <a href='/story/delete/".$row->id."/false' id='story-delete-".$row->id."' class='story-delete-btn' value='".$row->id."' value='".$row->id."'>delete</a>";
+				$list .=" | <a href='/story/delete/".$row->id."' id='story-delete-".$row->id."' class='story-delete-btn' value='".$row->id."' value='".$row->id."'>delete</a>";
 			}				
 			$list .="</li>";
 

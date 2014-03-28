@@ -106,6 +106,40 @@ html{
 }
 
 
+.ban-user{
+	margin-top: 15px;
+	margin-left: 25px;
+	width: 200px;
+	text-align: center;
+	-moz-box-shadow:inset 0px 1px 0px 0px #e184f3;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #e184f3;
+	box-shadow:inset 0px 1px 0px 0px #e184f3;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #E41949), color-stop(1, #D42108) );
+	background:-moz-linear-gradient( center top, #E41949 5%, #D42108 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#c123de', endColorstr='#a20dbd');
+	background-color:#c123de;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #EE0000;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #9b14b3;
+}.ban-user:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #D42108), color-stop(1, #E41949) );
+	background:-moz-linear-gradient( center top, #D42108 5%, #E41949 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#a20dbd', endColorstr='#c123de');
+	background-color:#a20dbd;
+}.ban-user:active {
+	position:relative;
+	top:1px;	
+}
+
 .post-category {
 	margin-top: 15px;
 	margin-left: 25px;

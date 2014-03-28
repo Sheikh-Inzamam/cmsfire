@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class User_Model extends CI_Model{
-	
+class User_Model extends CI_Model{	
+	var $salt = 'PLEASE_CHANGE_THIS_SALT_12312asadf';		
 	//Table
 	var $TABLE = "user";
 	//Fields
@@ -14,8 +14,7 @@ class User_Model extends CI_Model{
 		$this->load->database();
 		parent::__construct();
 	}	
-	
-	
+		
 	/*
 		Inserts only handle posts
 	*/
@@ -26,7 +25,7 @@ class User_Model extends CI_Model{
 		}
 
 		$name = strip_tags($this->input->post('name'));
-		$password = $this->input->post('password');
+		$password = sha1(sha1(md5($this->input->post('password').$this->salt)));
 		$email = strip_tags($this->input->post('email'));
 		
 		$data = array(
@@ -51,16 +50,20 @@ class User_Model extends CI_Model{
 		
 		$data = array(
 			'name' => $name,
-			'password' => $password
+			'password' => sha1(sha1(md5($password.$this->salt)))
 		);
-		$this->db->select('id');
+		$this->db->select('id, banned');
 		$this->db->from($this->TABLE);
 		$this->db->where($data);
-		$result = $this->db->get();
+		$result = $this->db->get();		
 		if($result->num_rows() == 0){
 			throw new Exception('Incorrect Credentials');
 		}else{
-			$this->session->set_userdata('name', $name);
+			if($result->row()->banned == 0){
+				$this->session->set_userdata('name', $name);
+			}else{
+				throw new Exception('You are banned!');
+			}
 		}
 	}
 	
@@ -84,14 +87,21 @@ class User_Model extends CI_Model{
 		return $this->db->where('name', $name)->get($this->TABLE)->row(0);
 	}
 	
-	function get(){
+	function get($data){	
+		$this->db->where($data);		
+		return $this->db->get($this->TABLE);
 	}
 	
+	function ban($userId){
+		$query = "update user set banned = 1 where id = ?";
+		$this->db->query($query, array($userId));
+	}
+
 	function update()
 	{
 		$data = array(
 			'name' => $this->name,
-			'password' => $this->password,
+			'password' => sha1(sha1(md5($this->password.$this->salt))),
 			'email' => $this->email
 		);
 		

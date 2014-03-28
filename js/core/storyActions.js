@@ -72,7 +72,9 @@ $(document).ready(
 				handleCommentCount(item.id);	
 			});
 
-			initDeleteHandler();
+
+			//disable for now...
+			//initDeleteHandler();
 		}
 
 		function initDeleteHandler(){
@@ -81,7 +83,6 @@ $(document).ready(
 				$(this).click (function(){
 					var jqxhr = $.getJSON("/story/delete/" + $(this).attr("value"), function() {})			
 					.done(function(data) {
-						//location
 						if(data.result == "Success!"){
 							location.reload();
 						}else{

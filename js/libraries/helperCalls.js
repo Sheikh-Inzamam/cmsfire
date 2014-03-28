@@ -167,8 +167,33 @@ $(document).ready(
 			});		
 		}
 
+		function banClickHandler(){
+			var dataToBeSent;
+			$("#ban-user").click(function() {				
+				var userId = $("#ban-user").attr("data-user-id");
+
+				$.ajax({
+					type: "POST",
+					url: "/user/ban/" + userId,
+					data: dataToBeSent,				    
+					dataType: "json",
+					success: function(data){
+						if(data.result == 'Success!'){
+							window.location.href = '/';
+						}else{
+							$("#error-banning-msg").html(data.result);
+						}
+					},
+					failure: function(errMsg) {
+						alert(errMsg);
+					}
+				});				
+			});
+		}		
+
 		window.getLinkClicked = getLinkClicked;
 		window.linkClicked = linkClicked;
+		window.banClickHandler = banClickHandler;
 		window.enableListNumbers = enableListNumbers;
 		window.handleCommentVoted = handleCommentVoted;
 		window.handleVoted = handleVoted;

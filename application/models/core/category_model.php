@@ -119,6 +119,11 @@ class Category_Model extends CI_Model{
 	function get(){
 		return $this->db->get($this->TABLE, 20, 0)->result();		
 	}
+
+	function getByName($name){
+		$query = "select * from category where name = ?;";
+		return $this->db->query($query, array($name));
+	}
 	
 	function update()
 	{

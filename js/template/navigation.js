@@ -181,27 +181,31 @@ $(document).ready(
 			initParseTitleAndDescription();
 		}
 
-		function initCategoryStoryHandler(){
+		function initCategoryStoryHandler(){			
+			$("#submit-button-create-category").click(function() {
+				sendCreateCategory();
+			});	
+		}
+
+		function sendCreateCategory(){
 			var dataToBeSent;
-			$("#submit-button-create-category").click(function() {	
-				dataToBeSent = $("#create-category-form").serialize();
-				$.ajax({
-				    type: "POST",
-				    url: "/category/submit",				    
-				    data: dataToBeSent,
-				    dataType: "json",
-				    success: function(data){
-				    	if(data.result == 'Success!'){
-							location.reload();
-						}else{
-							$("#error-create-category").html(data.result);
-						}
-				    },
-				    failure: function(errMsg) {
-				        alert(errMsg);
-				    }
-				});				
-			});			
+			dataToBeSent = $("#create-category-form").serialize();
+			$.ajax({
+			    type: "POST",
+			    url: "/category/submit",				    
+			    data: dataToBeSent,
+			    dataType: "json",
+			    success: function(data){
+			    	if(data.result == 'Success!'){
+						location.reload();
+					}else{
+						$("#error-create-category").html(data.result);
+					}
+			    },
+			    failure: function(errMsg) {
+			        alert(errMsg);
+			    }
+			});
 		}
 
 		function initParseTitleAndDescription(){
@@ -290,50 +294,73 @@ $(document).ready(
 		}
 
 		function initCreateAccountHandler(){
-			var dataToBeSent;
-			$("#submit-button-create").click(function() {	
-				dataToBeSent = $("#create-account-form").serialize();
-				$.ajax({
-				    type: "POST",
-				    url: "/create/submit",				    
-				    data: dataToBeSent,				    
-				    dataType: "json",
-				    success: function(data){			    	
-				    	if(data.result == 'Success!'){
-							location.reload();
-						}else{
-							$("#error-create-account").html(data.result);
-						}
-				    },
-				    failure: function(errMsg) {
-				        alert(errMsg);
-				    }
-				});				
+
+
+			$("#create-account-form").find("#imagecode").keypress(function (e) {	
+				if (e.which == 13) {
+					createUser();
+				}
+			});
+			
+			$("#submit-button-create").click(function() {					
+				createUser();
 			});
 		}
 
-		function initSubmitLoginHandler(){
+		function createUser(){
 			var dataToBeSent;
+			dataToBeSent = $("#create-account-form").serialize();
+			$.ajax({
+			    type: "POST",
+			    url: "/create/submit",				    
+			    data: dataToBeSent,				    
+			    dataType: "json",
+			    success: function(data){			    	
+			    	if(data.result == 'Success!'){
+						location.reload();
+					}else{
+						$("#error-create-account").html(data.result);
+					}
+			    },
+			    failure: function(errMsg) {
+			        alert(errMsg);
+			    }
+			});				
+		}
 
-			$("#submit-button-login").click(function() {	
-				dataToBeSent = $("#log-in-form").serialize();
-				$.ajax({
-				    type: "POST",
-				    url: "/login/submit",				    
-				    data: dataToBeSent,				    
-				    dataType: "json",
-				    success: function(data){
-				    	if(data.result == 'Success!'){
-							location.reload();
-						}else{
-							$("#error-log-in").html(data.result);
-						}
-				    },
-				    failure: function(errMsg) {
-				        alert(errMsg);
-				    }
-				});				
+		function initSubmitLoginHandler(){			
+			
+			$("#log-in-form").find("#password").keypress(function (e) {	
+				if (e.which == 13) {
+					sendLoginData();
+				}
 			});
+
+			$("#submit-button-login").click(function() {
+				sendLoginData();
+			});
+		}
+
+
+		function sendLoginData(){
+			var dataToBeSent;
+			dataToBeSent = $("#log-in-form").serialize();
+			$.ajax({
+			    type: "POST",
+			    url: "/login/submit",				    
+			    data: dataToBeSent,				    
+			    dataType: "json",
+			    success: function(data){
+			    	if(data.result == 'Success!'){
+						location.reload();
+					}else{
+						$("#error-log-in").html(data.result);
+					}
+			    },
+			    failure: function(errMsg) {
+			        alert(errMsg);
+			    }
+			});	
 		}
 
 		function initCategories(){
