@@ -14,7 +14,9 @@ TO SET UP:
 
 4].  Set write permissions on in "application\controllers\", this is because once the script runs it will delete "initial.php"
 
-5].  Next load in the browser: "YOUR_SERVER_NAME/initial" and create your user.
+5].  Change the default salt value in "application\models\core\login_model.php" and "application\models\core\user_model.php", it will be named <i>$salt</i>.  **These values should be equal to each other
+
+6].  Next load in the browser: "YOUR_SERVER_NAME" and create your user.
 
 
 You are now set up to use CMS Fire!  Create a category to start bookmarking and discussing topics.
