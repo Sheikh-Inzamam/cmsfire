@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User_Model extends CI_Model{	
-	var $salt = 'PLEASE_CHANGE_THIS_SALT_12312asadf';		
+	
 	//Table
 	var $TABLE = "user";
 	//Fields
@@ -25,7 +25,7 @@ class User_Model extends CI_Model{
 		}
 
 		$name = strip_tags($this->input->post('name'));
-		$password = sha1(sha1(md5($this->input->post('password').$this->salt)));
+		$password = sha1(sha1($this->input->post('password').$this->config->item("salt")));
 		$email = strip_tags($this->input->post('email'));
 		
 		$data = array(
@@ -50,7 +50,7 @@ class User_Model extends CI_Model{
 		
 		$data = array(
 			'name' => $name,
-			'password' => sha1(sha1(md5($password.$this->salt)))
+			'password' => sha1(sha1($password.$this->config->item("salt")))
 		);
 		$this->db->select('id, banned');
 		$this->db->from($this->TABLE);
@@ -101,7 +101,7 @@ class User_Model extends CI_Model{
 	{
 		$data = array(
 			'name' => $this->name,
-			'password' => sha1(sha1(md5($this->password.$this->salt))),
+			'password' => sha1(sha1($this->password.$this->config->item("salt"))),
 			'email' => $this->email
 		);
 		

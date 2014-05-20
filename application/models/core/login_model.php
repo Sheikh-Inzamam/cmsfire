@@ -1,7 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Login_model extends CI_Model{
-	var $salt = 'PLEASE_CHANGE_THIS_SALT_12312asadf';
 
 	function Login_model()
 	{		
@@ -9,7 +8,7 @@ class Login_model extends CI_Model{
 
 	function check_login($username, $password)
 	{
-		$sha1_password = sha1(sha1(md5($password.$this->salt)));
+		$sha1_password = sha1(sha1($password.$this->config->item("salt")));
 		$query_str = "select UserId from user where username = ? and password = ?";		
 		$result = $this->db->query($query_str,array($username, $sha1_password));
 				
